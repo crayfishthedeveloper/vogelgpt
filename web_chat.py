@@ -1,9 +1,10 @@
 # web_chat.py
+import os
 from flask import Flask, render_template, request, jsonify
 from chatbot import Chatbot
 
 app = Flask(__name__)
-bot = Chatbot(model="gpt-4o")  # or "gpt-3.5-turbo" if you prefer
+bot = Chatbot(model="gpt-4o")  # You can change the model if needed
 
 @app.route("/")
 def index():
@@ -16,4 +17,5 @@ def chat():
     return jsonify({"response": response})
 
 if __name__ == "__main__":
-    app.run(debug=True)
+    port = int(os.environ.get("PORT", 10000))  # Use PORT env variable if set (Render sets this)
+    app.run(host="0.0.0.0", port=port, debug=True)
